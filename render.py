@@ -3,7 +3,6 @@ from PIL import Image
 import io, base64
 
 def render(img: Image.Image, v: dict) -> Image.Image:
-    print('trying to render image...')
     """Take img - the original image and is not modified. 
     v keys in the dictionary: shadows, highlights, contrast, temp, saturation and exposure
     Values would be -1.0 to +1.0"""
@@ -46,12 +45,10 @@ def make_thumbnail(img: Image.Image, max_size: int = 1200) -> Image.Image:
 def img_to_base64(img: Image.Image) -> str:
     buf = io.BytesIO()
     img.save(buf, format="JPEG", quality=88)
-    print('base64 conversion complete...')
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 def measure_image(img: Image.Image) -> dict:
     img_array = np.asarray(img.convert("RGB"), dtype=np.float32) / 255.0
-    print('got image measurements...')
     return {
         'brightness': round(float(img_array.mean()), 3),
         'highlight_pct': round(float((img_array > 0.95).mean() * 100), 1),

@@ -100,7 +100,7 @@ client_nano = OpenAI(
 
 client_vision = OpenAI(
     base_url="https://api.tokenfactory.us-north1.nebius.com/v1/",
-    api_key=os.environ.get('EDITOR_KEY')
+    api_key=os.environ.get('VISION_KEY')
 )
 
 client_tavily = TavilyClient(os.environ.get('TAVILY_KEY'))
@@ -117,7 +117,7 @@ def get_brand_direction(user_input: str, brand_url: str = '') -> BrandDirection:
         combined_input = user_input
 
     raw = client_nano.chat.completions.create(
-        model = 'nvidia/nemotron-3-super-120b-a12b',
+        model = 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B',
         messages=[
             {
                 "role": "system",
@@ -130,7 +130,6 @@ def get_brand_direction(user_input: str, brand_url: str = '') -> BrandDirection:
         ],
     )
     brand_direction = raw.choices[0].message.content
-    print('Brand direction...' + extract_json(brand_direction))
     return BrandDirection.model_validate_json(extract_json(brand_direction))
 
 def get_tavily_convention(genre: str) -> str:
@@ -138,7 +137,6 @@ def get_tavily_convention(genre: str) -> str:
         f"style guide on how to edit {genre} brand photos")
     
     snippets = [r.get('content', '') for r in results.get('results', []) if r['score'] > 0.65]
-    print(snippets)
     return ('\n\n'.join(snippets[:3]))
 
 # nano
@@ -163,13 +161,11 @@ def get_personalized_conventions(genre: str, traits: list[str]) -> str:
         ],
     )
     conventions = response.choices[0].message.content
-    print(conventions)
     return conventions
 
 def get_suggestions(
         image_base64: str, traits: list[str], genre: str, conventions: str, measurements: dict,
 ) -> Suggestions:
-    print('getting edit suggestions...')
     res = client_vision.chat.completions.create(
         model = 'nvidia/Nemotron-3.5-Super-VL',
         messages=[
@@ -196,9 +192,7 @@ def get_suggestions(
                 ]
             }],
     )
-    print('client call complete')
     suggestions = res.choices[0].message.content
-    print(suggestions)
     return Suggestions.model_validate_json(extract_json(suggestions))
 
 def extract_json(text: str) -> str:

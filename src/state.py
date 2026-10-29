@@ -124,7 +124,6 @@ class PhotoState(rx.State):
         raw = base64.b64decode(self._originals[self.current_index])
         img = make_thumbnail(Image.open(io.BytesIO(raw)))
         v = self.edit_states[self.current_index]
-        print("DEBUG sliders:", v)
         edited = render(img, v)
         ratio = RATIOS.get(self.crop_ratio)
         if ratio:
@@ -215,12 +214,10 @@ class PhotoState(rx.State):
         self.direction_conventions = conventions
 
         self.is_loading = False
-        print('settings submitted, direction and genre gotten...')
         yield rx.redirect('/editor')
 
     @rx.event(background=True)
     async def per_photo_analysis(self):
-        print('starting per photo analysis...')
         for i in range(len(self._originals)):
             async with self:
                 if self.analysis_status[i] != 'pending':
