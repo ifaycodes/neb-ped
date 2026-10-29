@@ -1,6 +1,6 @@
 # Nireti — AI Photo Copilot
 
-Nireti is an AI-powered photo editing assistant built for brand photographers and creative teams. You give it your brand brief or website URL, and it analyses your photos and suggests editing adjustments — exposure, shadows, highlights, contrast, temperature, and saturation — tuned specifically to your brand's visual identity.
+Nireti is an AI-powered photo editing assistant built for beginner brand photographers and creative editors. You give it your brand brief or website URL, and it analyses your photos and suggests editing adjustments — exposure, shadows, highlights, contrast, temperature, and saturation — tuned specifically to your brand's visual identity.
 
 Built with [Reflex](https://reflex.dev) and powered by Nebius AI (Nemotron models) and Tavily.
 
