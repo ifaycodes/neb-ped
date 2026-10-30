@@ -21,7 +21,7 @@ class Suggestions(BaseModel):
     confidence: float
     reason: str
 
-NANO_START_PROMPT = """
+START_PROMPT = """
     You are a brand visual strategist.
     Provide only the final answer without any explanation or preamble
 
@@ -93,8 +93,8 @@ ANALYSIS_PROMPT = """
     """
 
 # client declaration
-client_nano = OpenAI(
-    base_url="https://api.tokenfactory.us-central1.nebius.com/v1/",
+client_light = OpenAI(
+    base_url="https://api.tokenfactory.eu-north1.nebius.com/v1/",
     api_key=os.environ.get('EDITOR_KEY')
 )
 
@@ -105,8 +105,7 @@ client_vision = OpenAI(
 
 client_tavily = TavilyClient(os.environ.get('TAVILY_KEY'))
 
-# the call functions
-# tavily
+# the model call functions
 def get_brand_direction(user_input: str, brand_url: str = '') -> BrandDirection:
     
     if brand_url:
@@ -116,8 +115,8 @@ def get_brand_direction(user_input: str, brand_url: str = '') -> BrandDirection:
     else:
         combined_input = user_input
 
-    raw = client_nano.chat.completions.create(
-        model = 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B',
+    raw = client_light.chat.completions.create(
+        model = 'nvidia/Nemotron-3_5-Lightning',
         messages=[
             {
                 "role": "system",
@@ -125,7 +124,7 @@ def get_brand_direction(user_input: str, brand_url: str = '') -> BrandDirection:
             },
             {
                 "role": "user",
-                "content": NANO_START_PROMPT.format(input=combined_input)
+                "content": START_PROMPT.format(input=combined_input)
             }
         ],
     )
@@ -139,12 +138,11 @@ def get_tavily_convention(genre: str) -> str:
     snippets = [r.get('content', '') for r in results.get('results', []) if r['score'] > 0.65]
     return ('\n\n'.join(snippets[:3]))
 
-# nano
 def get_personalized_conventions(genre: str, traits: list[str]) -> str:
     raw_conventions = get_tavily_convention(genre)
     
-    response = client_nano.chat.completions.create(
-        model="nvidia/nemotron-3-super-120b-a12b",
+    response = client_light.chat.completions.create(
+        model="nvidia/Nemotron-3_5-Lightning",
         messages=[
             {
                 "role": "system",
@@ -161,6 +159,7 @@ def get_personalized_conventions(genre: str, traits: list[str]) -> str:
         ],
     )
     conventions = response.choices[0].message.content
+    print(conventions)
     return conventions
 
 def get_suggestions(

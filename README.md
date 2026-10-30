@@ -25,7 +25,7 @@ Built with [Reflex](https://reflex.dev) and powered by Nebius AI (Nemotron model
 |---|---|
 | Framework | [Reflex](https://reflex.dev) (Python full-stack) |
 | Image processing | Pillow, NumPy |
-| Text model | Nebius — `nvidia/nemotron-3-super-120b` and `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B` |
+| Text model | Nebius — `nvidia/Nemotron-3_5-Lightning`|
 | Vision model | Nebius — `nvidia/Nemotron-3.5-Super-VL` |
 | Web search | [Tavily](https://tavily.com) |
 | Package manager | [uv](https://docs.astral.sh/uv/) |
