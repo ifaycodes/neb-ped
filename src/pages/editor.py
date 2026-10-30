@@ -76,7 +76,8 @@ def editor_page() -> rx.Component:
     return rx.vstack(
         # top bar
         rx.hstack(
-            rx.heading('Nireti - Photo Copilot', size='6'),
+            rx.heading('Nireti', size='4', display=["block", "block", "none"]),
+            rx.heading('Nireti - Photo Copilot', size='6', display=["none", "none", "block"]),
             rx.spacer(),
             rx.upload(
                 rx.button('Import photos', variant='outline', size='2'),

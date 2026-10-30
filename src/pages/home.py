@@ -5,9 +5,11 @@ def home_page() -> rx.Component:
     return rx.box(
         rx.vstack(
             rx.vstack(
-                rx.heading('NIRETI', size='9', letter_spacing='1em', line_height='2'),
+                rx.heading('NIRETI', size='9', letter_spacing='1em', line_height='2', padding_left='1em', display=["none", "none", "block"]),
+                rx.heading('NIRETI', size='7', letter_spacing='1em', line_height='2', padding_left='1em', display=["block", "block", "none"]),
 
-                rx.heading('Your brand has a look. Now your photos can match it.', size='6', line_height='3'),
+                rx.heading('Your brand has a look. Now your photos can match it.', size='6', line_height='3', display=["none", "none", "block"]),
+                rx.heading('Your brand has a look. Now your photos can match it.', size='4', line_height='3', display=["block", "block", "none"]),
 
                 rx.text("Nireti analyzes your product photos and suggests edits guided by your brand’s visual direction. " \
                     "You stay in control. Nothing changes until you say so.", size='2', font_style='italic', line_height='4'
@@ -17,8 +19,7 @@ def home_page() -> rx.Component:
                 ),
 
                 position="relative", width="100%", height="500px", overflow="hidden",
-                border_radius="12px", box_shadow="lg", align='center', justify='center', 
-                padding='24px 24px',
+                box_shadow="lg", align='center', justify='center', padding='24px 24px',
             ),
 
             rx.divider(color_scheme='indigo'),
@@ -35,20 +36,18 @@ def home_page() -> rx.Component:
             rx.button(
                 'See it work →',
                 on_click=rx.redirect('/settings'),
-                size='3', width='30%',
+                size='3', width='40%',
                 color_scheme='indigo', align='center', justify='center',
-                variant='outline'
+                variant='outline',
             ),
 
-            rx.text("No Lightroom. No editing experience needed. Just your brand and your photos.", size='1', font_style='italic', line_height='4'),
+            rx.text("No Lightroom. No editing experience needed. Just your brand and your photos.", size='1', font_style='italic', line_height='4', padding='24px 24px'),
 
             spacing='3',
             width='100%',
             align='center'
         ),
 
-        display='flex',
-        justify_content='center',
         min_height='100vh',
         background='var(--gray-1)',
     )

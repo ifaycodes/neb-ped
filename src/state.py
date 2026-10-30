@@ -200,10 +200,12 @@ class PhotoState(rx.State):
 
     async def submit_settings(self):
         if not self.brand_brief and not self.brand_url:
-            self.settings_error = 'Add a brief or URL to continue.'
+            self.settings_error = 'Add brand/shoot brief to continue.'
             return
 
         self.is_loading = True
+        yield
+
         user_input = self.brand_brief or ''
 
         direction = get_brand_direction(user_input, self.brand_url)

@@ -8,7 +8,7 @@ def settings_page() -> rx.Component:
             rx.text('Describe what this shoot is for.', color_scheme='gray'),
 
             rx.vstack(
-                rx.text('Project name', weight='bold'),
+                rx.text('Project name (Required)', weight='bold'),
                 rx.input(
                     placeholder='e.g. Adaeze Evening hangout',
                     value=PhotoState.project_name,
@@ -19,11 +19,11 @@ def settings_page() -> rx.Component:
             ),
 
             rx.vstack(
-                rx.text('Brand brief', weight='bold'),
+                rx.text('Brand brief (Required)', weight='bold'),
                 rx.text('What is the brand about? Who is it for? What feeling should the photos give?', 
                         size='2', color_scheme='gray'),
                 rx.text_area(
-                    placeholder='e.g. A natural skincare brand for young Nigerian women. Clean, warm, minimal.',
+                    placeholder='e.g. A natural skincare brand for young Nigerian women. Clean, warm, minimal. Be very descriptive and clear to improve the output',
                     value=PhotoState.brand_brief,
                     on_change=PhotoState.set_brand_brief,
                     width='100%',
@@ -43,9 +43,18 @@ def settings_page() -> rx.Component:
                 align='start', width='100%',
             ),
 
+            rx.cond(
+                PhotoState.settings_error != "",
+                rx.text(PhotoState.settings_error, color_scheme="red", size="2"),
+            ),
             rx.button(
-                'Continue to Editor →',
+                rx.cond(
+                    PhotoState.is_loading,
+                    rx.spinner(size='3'),
+                    rx.text('Continue to Editor →'),
+                ),
                 on_click=PhotoState.submit_settings(),
+                disabled=PhotoState.is_loading,
                 size='3',
                 color_scheme='indigo'
             ),
